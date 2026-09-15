@@ -1,22 +1,18 @@
-
-
-
+import SectionHeader from "./SectionHeader";
 export default function AboutMe() {
     return (
         <section className="mb-12">
-          <h2 className="text-2xl font-bold mb-6 pb-2 border-b-2  inline-block">
-            About Me
-          </h2>
+          <SectionHeader eyebrow="About" title="Who I am" />
           <div className="space-y-4 ">
             <p>
-              Hello! I'm a full-stack developer and the Co-Founder & CTO of
+              Hello! I&apos;m a full-stack developer and the Co-Founder & CTO of
               AquaSense, a multi-tenant SaaS platform that turns raw PLC/SCADA
               telemetry from water treatment plants into real-time monitoring,
               regulatory compliance and chemical inventory. In parallel, I
               worked as a Senior Software Engineer at Veeda, where I led an
               architectural migration of a legacy RPC backend into modular,
               domain-based components and gave technical guidance to two junior
-              engineers. I'm doing all of this while pursuing a B.S. in Computer
+              engineers. I&apos;m doing all of this while pursuing a B.S. in Computer
               Science and Technology Engineering at Tecnológico de Monterrey
               (expected May 2028), with a 94/100 academic average.
             </p>

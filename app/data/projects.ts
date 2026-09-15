@@ -9,6 +9,8 @@ export type Project = {
   technologies: string[];
   /** The 3–4 highlighted on the card. Falls back to the first 3 technologies. */
   featuredTech?: string[];
+  /** Hard numbers worth surfacing on the card, not buried in prose. */
+  metrics?: string[];
   github?: string;
   website?: string;
   /** Source is closed — the UI shows a lock instead of a repo link. */
@@ -52,6 +54,7 @@ export const projects: Project[] = [
       "Codex",
     ],
     featuredTech: ["Next.js", "TypeScript", "PostgreSQL"],
+    metrics: ["~430 inserts/sec", "100 plants", "870 GB → 30 GB"],
     privateRepo: true,
     year: "2026 – Present",
     role: "Co-Founder & CTO",
@@ -135,6 +138,7 @@ export const projects: Project[] = [
       "Codex",
     ],
     featuredTech: ["Next.js", "TypeScript", "Supabase"],
+    metrics: ["300+ clients", "97 tables", "534 tests"],
     privateRepo: true,
     year: "2026",
     role: "Independent Full-Stack Developer",
@@ -249,4 +253,10 @@ export function getProjectBySlug(slug: string): Project | undefined {
 
 export function getCardTech(project: Project): string[] {
   return project.featuredTech ?? project.technologies.slice(0, 3);
+}
+
+/** Teaser for the deepest thing written about a project, used to pull
+ *  readers into the engineering write-up instead of leaving it buried. */
+export function getCardHighlight(project: Project): string | undefined {
+  return project.challenges?.[0]?.title;
 }

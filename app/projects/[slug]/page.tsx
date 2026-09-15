@@ -20,7 +20,7 @@ export async function generateMetadata({
   if (!project) return { title: "Project not found" };
 
   return {
-    title: `${project.title} — Gustavo González`,
+    title: project.title,
     description: project.shortDescription,
   };
 }

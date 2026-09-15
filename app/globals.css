@@ -1,5 +1,11 @@
 @import "tailwindcss";
 
+/* Tailwind v4 does not read tailwind.config.js, so `darkMode: "class"` there
+   was silently ignored and every `dark:` utility followed the OS setting
+   instead of the theme toggle. This binds the variant to the class that
+   next-themes puts on <html>. */
+@custom-variant dark (&:where(.dark, .dark *));
+
 html {
   --bg: #ffffff;
   --text: #111111;
@@ -7,6 +13,7 @@ html {
   --card: #ffffff;
   --card-border: rgba(0, 0, 0, 0.1);
   --card-border-hover: rgba(0, 0, 0, 0.22);
+  --spotlight: rgba(0, 0, 0, 0.05);
 }
 
 /* Dark mode */
@@ -17,6 +24,7 @@ html.dark {
   --card: #0d0d0f;
   --card-border: rgba(255, 255, 255, 0.1);
   --card-border-hover: rgba(255, 255, 255, 0.24);
+  --spotlight: rgba(255, 255, 255, 0.07);
 }
 
 body {
@@ -24,10 +32,13 @@ body {
   color: var(--text);
 }
 
+/* Entrance ------------------------------------------------------------
+   Pure CSS so the prerendered HTML is painted immediately — no waiting
+   on hydration to reveal the page. Stagger comes from an inline delay. */
 @keyframes rise-in {
   from {
     opacity: 0;
-    transform: translateY(8px);
+    transform: translateY(12px);
   }
   to {
     opacity: 1;
@@ -36,11 +47,55 @@ body {
 }
 
 .rise-in {
-  animation: rise-in 400ms ease-out both;
+  animation: rise-in 600ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* Scroll reveal -------------------------------------------------------
+   Native scroll-driven animation where supported; everywhere else the
+   @supports guard leaves the element at its normal, fully visible state. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .reveal {
+      animation: rise-in 700ms cubic-bezier(0.16, 1, 0.3, 1) both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 22%;
+    }
+  }
+}
+
+/* Cursor spotlight ----------------------------------------------------
+   --mx/--my are written by the pointer handler in SpotlightCard. */
+.spotlight {
+  position: relative;
+}
+
+.spotlight::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 320ms ease;
+  background: radial-gradient(
+    18rem circle at var(--mx, 50%) var(--my, 50%),
+    var(--spotlight),
+    transparent 65%
+  );
+}
+
+.spotlight:hover::after,
+.spotlight:focus-within::after {
+  opacity: 1;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .rise-in {
+  .rise-in,
+  .reveal {
     animation: none;
+  }
+
+  .spotlight::after {
+    transition: none;
   }
 }

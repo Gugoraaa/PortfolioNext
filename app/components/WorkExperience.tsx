@@ -1,4 +1,5 @@
 import Link from "next/link";
+import SectionHeader from "./SectionHeader";
 
 type Role = {
   company: string;
@@ -55,13 +56,15 @@ const roles: Role[] = [
 export default function WorkExperience() {
   return (
     <section className="mb-12">
-      <h2 className="text-2xl font-bold mb-6 pb-2 border-b-2  inline-block">
-        Work Experience
-      </h2>
+      <SectionHeader
+        eyebrow="Career"
+        title="Where I've worked"
+        subtitle="Roles where I owned architecture, not just tickets."
+      />
 
       <div className="space-y-10">
         {roles.map((role) => (
-          <div key={role.company}>
+          <div key={role.company} className="reveal">
             <div className="flex justify-between items-start gap-4 mb-2">
               <div>
                 <h3 className="text-xl font-bold">

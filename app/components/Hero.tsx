@@ -15,12 +15,21 @@ export default function Hero() {
           />
         </div>
         <div className="text-center sm:text-left">
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-2 md:mb-3  ">
-            Hi, I'm Gustavo González
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight mb-3">
+            Hi, I&apos;m Gustavo González
           </h1>
-          <p className="text-lg sm:text-xl  max-w-xl">
-            Computer Science student at
-            <span className="block sm:inline"> Tecnológico de Monterrey.</span>
+          <p className="text-lg sm:text-xl max-w-xl text-balance">
+            I build multi-tenant backends — PostgreSQL at scale, tenant
+            isolation, and systems that stay safe to refactor.
+          </p>
+          <p className="mt-4 text-sm text-[var(--muted)]">
+            Co-Founder &amp; CTO at AquaSense
+            <span aria-hidden="true" className="mx-2">
+              ·
+            </span>
+            <span className="whitespace-nowrap">
+              Computer Science at Tecnológico de Monterrey
+            </span>
           </p>
         </div>
       </div>

@@ -1,12 +1,14 @@
 import Link from "next/link";
 import { ArrowUpRight, Lock } from "lucide-react";
-import { getCardTech, type Project } from "../data/projects";
+import SpotlightCard from "./SpotlightCard";
+import { getCardHighlight, getCardTech, type Project } from "../data/projects";
 
 export default function ProjectCard({ project }: { project: Project }) {
   const tech = getCardTech(project);
+  const highlight = getCardHighlight(project);
 
   return (
-    <article className="group relative flex flex-col rounded-xl border border-[var(--card-border)] bg-[var(--card)] p-5 transition-colors duration-300 hover:border-[var(--card-border-hover)] focus-within:border-[var(--card-border-hover)] sm:p-6">
+    <SpotlightCard className="reveal group relative flex flex-col rounded-xl border border-[var(--card-border)] bg-[var(--card)] p-5 transition-colors duration-300 hover:border-[var(--card-border-hover)] focus-within:border-[var(--card-border-hover)] sm:p-6">
       <h3 className="flex items-start gap-1 text-xl font-semibold tracking-tight">
         <Link
           href={`/projects/${project.slug}`}
@@ -24,6 +26,27 @@ export default function ProjectCard({ project }: { project: Project }) {
       <p className="mt-2 line-clamp-4 text-sm leading-relaxed text-[var(--muted)]">
         {project.shortDescription}
       </p>
+
+      {project.metrics && project.metrics.length > 0 && (
+        <ul className="mt-4 flex flex-wrap items-center gap-x-3 gap-y-1 text-[13px] font-medium tabular-nums">
+          {project.metrics.map((metric, i) => (
+            <li key={metric} className="flex items-center gap-3">
+              {i > 0 && (
+                <span aria-hidden="true" className="text-[var(--card-border-hover)]">
+                  ·
+                </span>
+              )}
+              {metric}
+            </li>
+          ))}
+        </ul>
+      )}
+
+      {highlight && (
+        <p className="mt-4 border-l-2 border-[var(--card-border)] pl-3 text-[13px] leading-snug text-[var(--muted)] transition-colors duration-300 group-hover:border-[var(--card-border-hover)]">
+          Read: {highlight.charAt(0).toLowerCase() + highlight.slice(1)}
+        </p>
+      )}
 
       <ul className="mt-4 mb-5 flex flex-wrap gap-1.5">
         {tech.map((item) => (
@@ -67,6 +90,6 @@ export default function ProjectCard({ project }: { project: Project }) {
           </span>
         )}
       </div>
-    </article>
+    </SpotlightCard>
   );
 }
