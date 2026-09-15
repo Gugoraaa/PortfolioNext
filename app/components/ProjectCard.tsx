@@ -1,68 +1,71 @@
-import { Github, ExternalLink } from "lucide-react";
 import Link from "next/link";
+import { ArrowUpRight, Lock } from "lucide-react";
+import { getCardTech, type Project } from "../data/projects";
 
-interface ProjectCardProps {
-  title: string;
-  description: string;
-  technologies: string[];
-  image: string;
-  githubUrl: string;
-}
+export default function ProjectCard({ project }: { project: Project }) {
+  const tech = getCardTech(project);
 
-export default function ProjectCard({
-  title = "Sistema Integral de Exhibición",
-  description = "Platform for managing product displays across multiple stores with real-time inventory tracking and analytics dashboard.",
-  technologies = ["React", "TypeScript", "Node.js", "PostgreSQL", "Azure"],
-  image = "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80",
-  githubUrl = "#",
-}: ProjectCardProps) {
   return (
-    <article className="group relative overflow-hidden rounded-xl border border-zinc-800 bg-zinc-900 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-zinc-900/50">
-      {/* Project Image with Overlay */}
-      <div className="relative h-48 ">
-        <img
-          src={image}
-          alt={`${title} project screenshot`}
-          className="h-full w-full object-cover transition-transform duration-500 "
+    <article className="group relative flex flex-col rounded-xl border border-[var(--card-border)] bg-[var(--card)] p-5 transition-colors duration-300 hover:border-[var(--card-border-hover)] focus-within:border-[var(--card-border-hover)] sm:p-6">
+      <h3 className="flex items-start gap-1 text-xl font-semibold tracking-tight">
+        <Link
+          href={`/projects/${project.slug}`}
+          className="rounded-sm after:absolute after:inset-0 after:rounded-xl focus-visible:outline-none focus-visible:after:outline-2 focus-visible:after:outline-offset-2 focus-visible:after:outline-current"
+        >
+          {project.title}
+        </Link>
+        <ArrowUpRight
+          size={16}
+          aria-hidden="true"
+          className="mt-1.5 shrink-0 opacity-0 transition-opacity duration-200 group-hover:opacity-60 group-focus-within:opacity-60"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-zinc-900/90 via-zinc-900/30 to-transparent" />
-      </div>
+      </h3>
 
-      {/* Project Content */}
-      <div className="p-6">
-        {/* Title */}
-        <h3 className="mb-2 text-xl font-bold text-white">{title}</h3>
+      <p className="mt-2 line-clamp-4 text-sm leading-relaxed text-[var(--muted)]">
+        {project.shortDescription}
+      </p>
 
-        {/* Description */}
-        <p className="mb-4 text-sm leading-relaxed text-zinc-400">
-          {description}
-        </p>
+      <ul className="mt-4 mb-5 flex flex-wrap gap-1.5">
+        {tech.map((item) => (
+          <li
+            key={item}
+            className="rounded-md border border-[var(--card-border)] px-2 py-0.5 text-[11px] text-[var(--muted)]"
+          >
+            {item}
+          </li>
+        ))}
+      </ul>
 
-        {/* Technologies */}
-        <div className="mb-5 flex flex-wrap gap-2">
-          {technologies.map((tech, index) => (
-            <span
-              key={index}
-              className="rounded-full border border-zinc-700 bg-zinc-800/50 px-3 py-1 text-xs text-zinc-300 backdrop-blur-sm"
-            >
-              {tech}
-            </span>
-          ))}
-        </div>
-
-        {/* Action Buttons */}
-        <div className="flex items-center justify-between border-t border-zinc-800 pt-4">
-          <Link
-            href={githubUrl}
+      <div className="relative z-10 mt-auto flex flex-wrap items-center gap-x-4 gap-y-2 border-t border-[var(--card-border)] pt-4 text-xs text-[var(--muted)]">
+        {project.year && <span>{project.year}</span>}
+        {project.website && (
+          <a
+            href={project.website}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium text-zinc-300 transition-colors hover:bg-zinc-800 hover:text-white"
-            aria-label={`View ${title} code on GitHub`}
+            aria-label={`Open the ${project.title} live site (opens in a new tab)`}
+            className="rounded-sm transition-colors hover:text-[var(--text)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-current"
           >
-            <Github size={16} />
-            <span>Code</span>
-          </Link>
-        </div>
+            Live <span aria-hidden="true">↗</span>
+          </a>
+        )}
+        {project.github && (
+          <a
+            href={project.github}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={`View the ${project.title} source on GitHub (opens in a new tab)`}
+            className="rounded-sm transition-colors hover:text-[var(--text)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-current"
+          >
+            GitHub <span aria-hidden="true">↗</span>
+          </a>
+        )}
+        {project.privateRepo && (
+          <span className="inline-flex items-center gap-1.5">
+            <Lock size={12} aria-hidden="true" />
+            Private project
+          </span>
+        )}
       </div>
     </article>
   );

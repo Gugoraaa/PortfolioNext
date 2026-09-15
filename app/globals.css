@@ -3,15 +3,44 @@
 html {
   --bg: #ffffff;
   --text: #111111;
+  --muted: #52525b;
+  --card: #ffffff;
+  --card-border: rgba(0, 0, 0, 0.1);
+  --card-border-hover: rgba(0, 0, 0, 0.22);
 }
 
 /* Dark mode */
 html.dark {
   --bg: #050505;
   --text: #f5f5f5;
+  --muted: #a1a1aa;
+  --card: #0d0d0f;
+  --card-border: rgba(255, 255, 255, 0.1);
+  --card-border-hover: rgba(255, 255, 255, 0.24);
 }
 
 body {
   background: var(--bg);
   color: var(--text);
+}
+
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.rise-in {
+  animation: rise-in 400ms ease-out both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rise-in {
+    animation: none;
+  }
 }

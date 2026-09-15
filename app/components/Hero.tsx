@@ -19,7 +19,7 @@ export default function Hero() {
             Hi, I'm Gustavo González
           </h1>
           <p className="text-lg sm:text-xl  max-w-xl">
-            Full-stack developer and Computer Science student at
+            Computer Science student at
             <span className="block sm:inline"> Tecnológico de Monterrey.</span>
           </p>
         </div>
